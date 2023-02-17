@@ -1,15 +1,11 @@
-﻿using System;
-using System.Text;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using ChatServer.Core.Globals;
 using ChatServer.Core;
 using ChatServer.Core.Network.PacketClasses;
 using ChatServer.Core.Network.ConnectionTypes;
 using ChatServer.Core.Network;
-using ChatServer.Core.Reader.PacketHandlers;
 using ChatServer.ServerStates;
-using System.Net.Security;
 
 namespace ChatServer
 {
@@ -46,28 +42,19 @@ namespace ChatServer
         }
 
         public void handleNewSocket( Socket remoteSocket )
-        { 
+        {
             new Thread(() =>
             {
-                try
-                {
-                    if (10 >= Globals.env.maxUsers) { denyUser( remoteSocket ); return; }
-                    acceptUser( remoteSocket );
-                }
-                catch (Exception error)
-                {
-                    GuiHandler.writeError( error.Message );
-                    return;
-                }
+                if (10 >= Globals.env.maxUsers) { denyUser(remoteSocket); } // need to create a connection list still.
+                else { acceptUser(remoteSocket); }
             }).Start();
         }
-        public void denyUser( Socket remoteConn)
+        public void denyUser( Socket remoteConn )
         {
             remoteConn.ReceiveTimeout = Globals.env.maxPing;
             remoteConn.SendTimeout = Globals.env.maxPing;
-            byte[] result = new byte[1];
-            result[1] = 0;
-            remoteConn.Send( result );
+            InitPacket packet = new InitPacket();
+            remoteConn.Send(packet.createResponse(1));
             remoteConn.Shutdown( SocketShutdown.Send );
             remoteConn.Close();
         }
@@ -94,7 +81,10 @@ namespace ChatServer
             Socket remoteConn = connection.getConn();
 
             if (remoteConn == null || remoteConn.Connected)
+            {
                 removeUser(connection);
+                return;
+            }
             
             switch( connection.getState() )
             {
@@ -129,11 +119,12 @@ namespace ChatServer
                     authentication.handleMessage( connection );
                     break;
                 case (ushort)UserStates.LOGGEDIN:
-                    chatServer.handleMessage((User)connection);
+                    chatServer.handleMessage( (User)connection  );
                     break;
             }
 
-            listenForMessage( connection );
+            if( connection.getConn().Connected )
+                listenForMessage( connection );
         }
     }
 }
