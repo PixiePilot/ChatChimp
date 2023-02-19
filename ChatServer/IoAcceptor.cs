@@ -86,11 +86,20 @@ namespace ChatServer
             finally { session.getConn().Close(); }
         }
 
+        public bool socketOpen( Socket remoteConn )
+        {
+            try
+            {
+                return !( remoteConn.Poll( 1, SelectMode.SelectRead ) && remoteConn.Available == 0 );
+            }
+            catch (SocketException) { return false; }
+        }
+
         public void listenForMessage( Session connection ) 
         {
             Socket remoteConn = connection.getConn();
             #region validSocket check
-            if (remoteConn == null || remoteConn.Available != 0)
+            if ( !socketOpen(remoteConn) )
             {
                 removeUser(connection);
                 return;
