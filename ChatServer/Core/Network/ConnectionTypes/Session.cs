@@ -19,7 +19,7 @@ namespace ChatServer.Core.Network.ConnectionTypes
 
         private byte[] data;
 
-        public Session( Socket remoteConn )
+        public Session( Socket remoteConn )// TODO : could potentially break, With gods interference in timing.
         {
             this.remoteConn = remoteConn;
             string[] ipInfo = remoteConn.RemoteEndPoint.ToString().Split(':');

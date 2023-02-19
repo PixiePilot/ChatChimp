@@ -19,7 +19,7 @@ namespace ChatServer.Core.Network.PacketClasses
         /// <returns>Data to send</returns>
         public byte[] createResponse( byte responseState )
         {
-            createHeader((byte)(packetSize - 1), (byte)NetMessage.TS_SC_RESPONSE_INIT);
+            createHeader( (byte)(packetSize - 1), (byte)NetMessage.TS_SC_RESPONSE_INIT );
             writeByte( responseState );
             return getData();
         }

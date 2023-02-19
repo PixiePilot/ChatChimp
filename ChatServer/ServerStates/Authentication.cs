@@ -1,4 +1,5 @@
-﻿using ChatServer.Core.Network;
+﻿using ChatServer.Core;
+using ChatServer.Core.Network;
 using ChatServer.Core.Network.ConnectionTypes;
 using ChatServer.Core.Network.PacketClasses;
 using ChatServer.Core.Reader.PacketHandlers;
@@ -27,6 +28,9 @@ namespace ChatServer.ServerStates
                 case (ushort)NetMessage.TS_CS_LOGIN_REQUEST:
                     handleLoginRequest( session, reader );
                     break;
+                default:
+                    GuiHandler.writeError($"invalid packet id: {msgID}");
+                    return; // invalid message.
             }
         }
 
