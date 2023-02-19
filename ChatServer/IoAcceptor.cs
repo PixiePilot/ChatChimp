@@ -6,7 +6,8 @@ using ChatServer.Core.Network.PacketClasses;
 using ChatServer.Core.Network.ConnectionTypes;
 using ChatServer.Core.Network;
 using ChatServer.ServerStates;
-// TODO: thread violation upon socket sending the shutdown signal.
+using ChatServer.Core.Reader.PacketHandlers;
+
 namespace ChatServer
 {
     public class IoAcceptor
@@ -108,6 +109,9 @@ namespace ChatServer
             #endregion
             switch ( connection.getState() )
             {
+                case (ushort)UserStates.CREATE_KEY:
+                    connection.setDataSize( (int)NetSizes.CREATE_KEY );
+                        break;
                 case (ushort)UserStates.PRELOGIN:
                     connection.setDataSize( (int)NetSizes.PRELOGIN );
                     break;
@@ -141,6 +145,9 @@ namespace ChatServer
             Session connection = (Session)asyncResult.AsyncState!;
             switch( connection.getState() )
             {
+                case (ushort)UserStates.CREATE_KEY:
+                    createKey( connection );
+                    break;
                 case (ushort)UserStates.PRELOGIN:
                     authentication.handleMessage( connection );
                     break;
@@ -150,6 +157,24 @@ namespace ChatServer
             }
 
             listenForMessage( connection );
+        }
+
+        public void createKey( Session connection)
+        {
+            PacketReader reader = new PacketReader( connection.getData() );
+
+            int contentSize = reader.readIntBytes();
+            int msgID = reader.readIntBytes(); // should be 9999 bc doesn't make sense ( security reasons )
+            string publicKey = reader.readString();
+            bool result = connection.createKey( publicKey );
+
+            if ( !result || msgID != 9999 )
+            {
+                removeUser(connection);
+                return;
+            }
+            EncryptKeyPacket packet = new EncryptKeyPacket( (int)NetSizes.CREATE_KEY, connection.getKey() );
+            connection.getConn().Send( packet.getData() );
         }
     }
 }

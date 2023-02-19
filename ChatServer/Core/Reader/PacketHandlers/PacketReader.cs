@@ -33,20 +33,8 @@ namespace ChatServer.Core.Reader.PacketHandlers
         }
 
         public int readIntBytes()
-        {
-            //int number = 0;
-            //for (int i = 0; i > 4; i++) 
-            //{
-            //    byte currentByte = reader.ReadByte();
-            //    if (currentByte == 0)
-            //        break;
-
-            //    number += currentByte;
-            //}
-            //return number;
-            return reader.Read7BitEncodedInt();
-        }
-
+            => reader.Read7BitEncodedInt();
+        
         public string readString()
         {
             int characters = readIntBytes();

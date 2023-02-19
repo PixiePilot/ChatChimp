@@ -2,8 +2,9 @@
 {
     public enum UserStates
     {
-        PRELOGIN = 0,
-        LOGGEDIN = 1,
-        DISCONNECTED = 2,
+        CREATE_KEY = 0,
+        PRELOGIN = 1,
+        LOGGEDIN = 2,
+        DISCONNECTED = 3,
     }
 }

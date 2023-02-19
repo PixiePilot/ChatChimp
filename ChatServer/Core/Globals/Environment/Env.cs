@@ -4,6 +4,7 @@ namespace ChatServer.Core.Globals.Environment
     public class Env
     {
         // opt file
+        public string privateKey { get; set; }
         public string ipAddress { get; set; }
 
         public int port { get; set; }
@@ -27,6 +28,7 @@ namespace ChatServer.Core.Globals.Environment
         public Env()
         {
             OptionReader reader = new("options");
+            privateKey       = reader.getEnv("private_key") ?? "monkeeee";
             ipAddress        = reader.getEnv("ip_address") ?? "0.0.0.0";
             port             = reader.getEnv("port") ?? 25565;
             maxUsers         = reader.getEnv("max_users") ?? 100;

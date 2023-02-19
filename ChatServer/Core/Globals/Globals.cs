@@ -8,5 +8,9 @@ namespace ChatServer.Core.Globals
         public static IoAcceptor acceptor { get; set; }
         public static Authentication authentication { get; set; }
         public static ServerChat chatServer { get; set; }
+
+        #region Const values
+        public static readonly string privateKey = "monkeyTown";
+        #endregion
     }
 }

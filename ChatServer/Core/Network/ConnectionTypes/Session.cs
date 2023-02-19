@@ -1,4 +1,6 @@
-﻿using ChatServer.Core.Structs;
+﻿using ChatServer.Core.Encryption;
+using ChatServer.Core.Globals;
+using ChatServer.Core.Structs;
 using ChatServer.ServerStates;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,7 @@ namespace ChatServer.Core.Network.ConnectionTypes
         private ushort port { get; set; }
         private ushort state { get; set; }
 
+        private string key { get; set; }
         private byte[] data;
 
         public Session( Socket remoteConn )
@@ -23,8 +26,21 @@ namespace ChatServer.Core.Network.ConnectionTypes
             
             ipAddress = ipInfo[0];
             port = ushort.Parse( ipInfo[1] );
-            state = (ushort)UserStates.PRELOGIN;
+            state = (ushort)UserStates.CREATE_KEY;
         }
+
+        public bool createKey( string publicKey )
+        {
+            if( publicKey.Length != 8 ) 
+                return false;
+
+            key = SHA.ComputeSha256Hash( publicKey.Substring(0,4) + Globals.Globals.env.privateKey + publicKey.Substring(4,8) );
+            state = (ushort)UserStates.PRELOGIN;
+            return true;
+        }
+
+        public string getKey()
+            => key;
 
         public Socket getConn() 
             => remoteConn;

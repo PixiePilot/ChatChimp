@@ -24,7 +24,7 @@ namespace ChatServer.Core.Network.PacketClasses
         {
             string welcomeMsg = $"Welcome {accountInfo.username}";
             createStream(121);
-            createHeader( welcomeMsg.Length + 2, (byte)NetMessage.TS_SC_LOGIN_RESULT );
+            createHeader( welcomeMsg.Length , (int)NetMessage.TS_SC_LOGIN_RESULT );
             writeByte(1);// True
             writeString( welcomeMsg );
             return getData();
@@ -33,7 +33,7 @@ namespace ChatServer.Core.Network.PacketClasses
         public byte[] getResult()
         {
             createStream(70);
-            createHeader( 1, (byte)NetMessage.TS_SC_LOGIN_RESULT );
+            createHeader( 1, (int)NetMessage.TS_SC_LOGIN_RESULT );
             writeByte(0);// False
             return getData();
         }

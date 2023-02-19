@@ -1,4 +1,5 @@
-﻿using ChatServer.Core.Reader.PacketHandlers;
+﻿using ChatServer.Core.Encryption;
+using ChatServer.Core.Reader.PacketHandlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,10 @@ namespace ChatServer.Core.Network.PacketClasses
 
         protected byte[] data { get; set; }
 
+        protected PacketWriter writer { get; set; }
+
         public BasePacket( int size ) 
-        {
+        { // requires creation of packet writer
             data = new byte[size];
             ms = new MemoryStream( data );
         }
@@ -27,29 +30,33 @@ namespace ChatServer.Core.Network.PacketClasses
         public void createStream( int size )
         {
             data = new byte[size];
-            ms = new MemoryStream(data);
+            writer = new PacketWriter( data );
         }
 
-        public void createHeader(int size, byte packetId)
+        public void createHeader(int size, int packetId)
         {
-            ms.WriteByte( (byte)(size - 1) );
-            ms.WriteByte(0);
-            ms.WriteByte( packetId );
-            ms.WriteByte(0);
+            writer.writeInt( size - 2);
+            writer.writeInt( packetId );
         }
 
-        public void writeIntByte( int value )
+        public void writeInt( int value )
         {
-            ms.WriteByte((byte)value);
+            writer.writeInt( value );
         }
 
         public void writeByte( byte b ) 
             => ms.WriteByte( b );
         
-        public void writeString( string message)
+        public void writeString( string message )
         {
-            writeIntByte( message.Length );
+            writeInt( message.Length );
             ms.Write( Encoding.UTF8.GetBytes(message) );
+        }
+
+        public void writeString( string message, string publicKey)
+        {
+            writeInt( message.Length );
+            ms.Write( Encoding.UTF8.GetBytes( RC4.apply(message,publicKey) ) );
         }
 
         public byte[] getData() 
