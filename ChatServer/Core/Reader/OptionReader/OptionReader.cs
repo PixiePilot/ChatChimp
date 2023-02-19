@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System;
-
-namespace MinecraftSharp.Core.Reader.OptionsReader
+﻿namespace MinecraftSharp.Core.Reader.OptionsReader
 {
     public class OptionReader
     {

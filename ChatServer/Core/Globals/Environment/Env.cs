@@ -1,5 +1,4 @@
 ﻿using MinecraftSharp.Core.Reader.OptionsReader;
-
 namespace ChatServer.Core.Globals.Environment
 {
     public class Env

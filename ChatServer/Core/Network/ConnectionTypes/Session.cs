@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChatServer.Core.Network.ConnectionTypes
 {
@@ -14,12 +12,11 @@ namespace ChatServer.Core.Network.ConnectionTypes
         private Socket remoteConn { get; set; }
         private string ipAddress { get; set; }
         private ushort port { get; set; }
-
         private ushort state { get; set; }
 
         private byte[] data;
 
-        public Session( Socket remoteConn )// TODO : could potentially break, With gods interference in timing.
+        public Session( Socket remoteConn )
         {
             this.remoteConn = remoteConn;
             string[] ipInfo = remoteConn.RemoteEndPoint.ToString().Split(':');
@@ -42,6 +39,9 @@ namespace ChatServer.Core.Network.ConnectionTypes
 
         public ushort getState()
             => state;
+
+        public void setState( ushort state )
+            => this.state = state;
 
         public void changeToLoggedState( AccountStruct accountInfo )
         {

@@ -86,7 +86,7 @@ namespace ChatServer
             finally { session.getConn().Close(); }
         }
 
-        public bool socketOpen( Socket remoteConn )
+        public bool validConn( Socket remoteConn )
         {
             try
             {
@@ -99,8 +99,9 @@ namespace ChatServer
         {
             Socket remoteConn = connection.getConn();
             #region validSocket check
-            if ( !socketOpen(remoteConn) )
+            if ( !validConn(remoteConn) )
             {
+                connection.setState( (ushort)UserStates.DISCONNECTED );
                 removeUser(connection);
                 return;
             }

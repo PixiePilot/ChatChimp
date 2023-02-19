@@ -1,5 +1,3 @@
-using ChatServer.Core.Globals;
-
 namespace ChatServer
 {
     internal static class Program

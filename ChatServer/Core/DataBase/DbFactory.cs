@@ -1,8 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Data;
-using System.Data.SqlClient;
-using ChatServer.Core.Globals;
 namespace ChatServer.Core.DataBase
 {
     public static class DbFactory

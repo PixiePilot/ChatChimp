@@ -14,6 +14,7 @@ namespace ChatServer.Core.Reader.PacketHandlers
         public PacketReader( byte[] data ) 
         {
             ms = new MemoryStream( data );
+            reader = new BinaryReader( ms );
         }
 
         public ushort readuShortBytes()
@@ -33,16 +34,17 @@ namespace ChatServer.Core.Reader.PacketHandlers
 
         public int readIntBytes()
         {
-            int number = 0;
-            for (int i = 0; i > 4; i++) 
-            {
-                byte currentByte = reader.ReadByte();
-                if (currentByte == 0)
-                    break;
+            //int number = 0;
+            //for (int i = 0; i > 4; i++) 
+            //{
+            //    byte currentByte = reader.ReadByte();
+            //    if (currentByte == 0)
+            //        break;
 
-                number += currentByte;
-            }
-            return number;
+            //    number += currentByte;
+            //}
+            //return number;
+            return reader.Read7BitEncodedInt();
         }
 
         public string readString()
