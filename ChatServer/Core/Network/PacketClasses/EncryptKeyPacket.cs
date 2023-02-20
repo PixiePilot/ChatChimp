@@ -11,7 +11,7 @@ namespace ChatServer.Core.Network.PacketClasses
         public EncryptKeyPacket( int size, string publicKey ) : base(size)
         {
             createStream(size);
-            createHeader(publicKey.Length + 1, (int)NetMessage.TS_SC_GIVE_KEY);
+            createHeader( publicKey.Length , (int)NetMessage.TS_SC_GIVE_KEY );
             writeString(publicKey);
         }
     }

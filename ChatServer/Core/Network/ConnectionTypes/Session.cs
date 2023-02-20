@@ -29,14 +29,9 @@ namespace ChatServer.Core.Network.ConnectionTypes
             state = (ushort)UserStates.CREATE_KEY;
         }
 
-        public bool createKey( string publicKey )
+        public void setKey( string publicKey )
         {
-            if( publicKey.Length != 8 ) 
-                return false;
-
-            key = SHA.ComputeSha256Hash( publicKey.Substring(0,4) + Globals.Globals.env.privateKey + publicKey.Substring(4,8) );
-            state = (ushort)UserStates.PRELOGIN;
-            return true;
+            key = publicKey;
         }
 
         public string getKey()

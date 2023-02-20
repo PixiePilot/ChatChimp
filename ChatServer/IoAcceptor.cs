@@ -7,6 +7,8 @@ using ChatServer.Core.Network.ConnectionTypes;
 using ChatServer.Core.Network;
 using ChatServer.ServerStates;
 using ChatServer.Core.Reader.PacketHandlers;
+using ChatServer.Core.Encryption;
+using static System.Windows.Forms.AxHost;
 
 namespace ChatServer
 {
@@ -146,7 +148,7 @@ namespace ChatServer
             switch( connection.getState() )
             {
                 case (ushort)UserStates.CREATE_KEY:
-                    createKey( connection );
+                    setKey( connection );
                     break;
                 case (ushort)UserStates.PRELOGIN:
                     authentication.handleMessage( connection );
@@ -159,14 +161,14 @@ namespace ChatServer
             listenForMessage( connection );
         }
 
-        public void createKey( Session connection)
+        public void setKey( Session connection)
         {
             PacketReader reader = new PacketReader( connection.getData() );
 
             int contentSize = reader.readIntBytes();
             int msgID = reader.readIntBytes(); // should be 9999 bc doesn't make sense ( security reasons )
             string publicKey = reader.readString();
-            bool result = connection.createKey( publicKey );
+            bool result = createKey( publicKey, connection );
 
             if ( !result || msgID != 9999 )
             {
@@ -175,6 +177,18 @@ namespace ChatServer
             }
             EncryptKeyPacket packet = new EncryptKeyPacket( (int)NetSizes.CREATE_KEY, connection.getKey() );
             connection.getConn().Send( packet.getData() );
+        }
+        public bool createKey( string publicKey, Session connection )
+        {
+            if (publicKey.Length != 8)
+                return false;
+
+            string key = SHA.ComputeSha256Hash(publicKey.Substring(0, 4) + Globals.env.privateKey + publicKey.Substring(4, 8)); // always 64 chars
+            char[] keyArray = key.ToCharArray();
+            keyArray.Reverse();
+            connection.setKey( new string(keyArray) );
+            connection.setState( (ushort)UserStates.PRELOGIN );
+            return true;
         }
     }
 }
