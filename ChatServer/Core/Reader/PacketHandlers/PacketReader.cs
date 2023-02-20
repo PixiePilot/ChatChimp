@@ -20,13 +20,9 @@ namespace ChatServer.Core.Reader.PacketHandlers
         public int readIntBytes()
             => reader.Read7BitEncodedInt();
         
-        public string readString()
-        {
-            int characters = readIntBytes();
-            byte[] data = new byte[characters * 2]; // x2 because it is utf-8
-            ms.ReadExactly( data, 0, characters );
-            return Encoding.UTF8.GetString( data );
-        }
+        public string readString( int lenMsg )
+            => Encoding.UTF8.GetString(reader.ReadBytes(lenMsg + 1),1,lenMsg);
+            
 
     }
 }

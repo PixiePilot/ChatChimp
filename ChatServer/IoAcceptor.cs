@@ -167,7 +167,7 @@ namespace ChatServer
 
             int contentSize = reader.readIntBytes();
             int msgID = reader.readIntBytes(); // should be 9999 bc doesn't make sense ( security reasons )
-            string publicKey = reader.readString();
+            string publicKey = reader.readString( reader.readIntBytes() );
             bool result = createKey( publicKey, connection );
 
             if ( !result || msgID != 9999 )

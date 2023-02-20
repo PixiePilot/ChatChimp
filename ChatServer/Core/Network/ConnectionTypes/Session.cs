@@ -26,7 +26,7 @@ namespace ChatServer.Core.Network.ConnectionTypes
             
             ipAddress = ipInfo[0];
             port = ushort.Parse( ipInfo[1] );
-            state = (ushort)UserStates.CREATE_KEY;
+            state = (ushort)UserStates.PRELOGIN;
         }
 
         public void setKey( string publicKey )

@@ -21,5 +21,8 @@ namespace ChatServer.Core.Reader.PacketHandlers
         {
             writer.Write7BitEncodedInt( value );
         }
+
+        public void writeByte(byte value)
+            => writer.Write(value);
     }
 }

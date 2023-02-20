@@ -44,8 +44,8 @@ namespace ChatServer.Core.Network.PacketClasses
             writer.writeInt( value );
         }
 
-        public void writeByte( byte b ) 
-            => ms.WriteByte( b );
+        public void writeByte(byte b)
+            => writer.writeByte( b );//ms.WriteByte( b );
         
         public void writeString( string message )
         {
