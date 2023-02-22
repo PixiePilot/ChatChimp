@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ChatServer.Core.DataBase.DbFactory" Collapsed="true">
+    <Position X="17.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\DataBase\DbFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Core.Encryption.RC4" Collapsed="true">
+    <Position X="13.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Encryption\RC4.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Core.Encryption.SHA" Collapsed="true">
+    <Position X="17.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Encryption\SHA.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Core.Globals.Environment.Env" Collapsed="true">
+    <Position X="12" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAABCABAMAQAAAAAAAAgAAAAAgAAEEAAAAgAAA=</HashCode>
+      <FileName>Core\Globals\Environment\Env.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Core.Globals.Globals" Collapsed="true">
+    <Position X="13.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAEACAAAAAAAAAAAAQAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Core\Globals\Globals.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Core.Network.ConnectionTypes.Session" Collapsed="true">
+    <Position X="4.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAQBAAAAAAAAIAABAAEABAAAAAABAgEAAAQEAAAQAQ=</HashCode>
+      <FileName>Core\Network\ConnectionTypes\Session.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Core.Network.ConnectionTypes.User" Collapsed="true">
+    <Position X="4.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAQAAAABAAAAA=</HashCode>
+      <FileName>Core\Network\ConnectionTypes\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Core.Network.PacketClasses.BasePacket" Collapsed="true">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQBAAAAAACAACAAAAAAEAAACAAAAAAAQQQAAAAAAA=</HashCode>
+      <FileName>Core\Network\PacketClasses\BasePacket.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Core.Network.PacketClasses.EncryptKeyPacket" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Network\PacketClasses\EncryptKeyPacket.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Core.Network.PacketClasses.InitPacket" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Network\PacketClasses\InitPacket.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Core.Network.PacketClasses.LoginPacket" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAIAAEAAAAAQAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Core\Network\PacketClasses\LoginPacket.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MinecraftSharp.Core.Reader.OptionsReader.OptionReader" Collapsed="true">
+    <Position X="13.75" Y="2.5" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="MinecraftSharp.Core.Reader.OptionsReader.OptionReader.EnvStruct" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Core\Reader\OptionReader\OptionReader.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAABAAAIAAQACAAAgAAAAAAA=</HashCode>
+      <FileName>Core\Reader\OptionReader\OptionReader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Core.Reader.PacketHandlers.PacketReader" Collapsed="true">
+    <Position X="15.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAUAAAAQAAA=</HashCode>
+      <FileName>Core\Reader\PacketHandlers\PacketReader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Core.Reader.PacketHandlers.PacketWriter" Collapsed="true">
+    <Position X="17.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAACAAAAAAAQQAAAAAAAA=</HashCode>
+      <FileName>Core\Reader\PacketHandlers\PacketWriter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Core.CommandHandler" Collapsed="true">
+    <Position X="15.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\CommandHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Core.GuiHandler" Collapsed="true">
+    <Position X="15.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAACQAA=</HashCode>
+      <FileName>Core\GuiHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.ServerStates.Authentication" Collapsed="true">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>ServerStates\Authentication.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.ServerStates.ServerChat" Collapsed="true">
+    <Position X="15.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ServerStates\ChatServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Authenticator" Collapsed="true">
+    <Position X="13.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Authenticator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.IoAcceptor" Collapsed="true">
+    <Position X="17.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQBAAEAAAAAgAAAgIgAAIAAAACAAAQAAABBAAAUAQAA=</HashCode>
+      <FileName>IoAcceptor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.LogWnd" Collapsed="true">
+    <Position X="12" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAACAAAAAAAACAAAACAACAAAAABAAQAAAAAAA=</HashCode>
+      <FileName>LogWnd.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChatServer.Program" Collapsed="true">
+    <Position X="12" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="ChatServer.Core.Structs.AccountStruct" Collapsed="true">
+    <Position X="12" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAEAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Core\Structs\AccountStruct.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="ChatServer.Core.Network.NetMessage" Collapsed="true">
+    <Position X="12" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAEAAABAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Network\NetMessage.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ChatServer.Core.Network.NetSizes" Collapsed="true">
+    <Position X="13.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAQAgAA=</HashCode>
+      <FileName>Core\Network\NetMessage.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ChatServer.ServerStates.UserStates" Collapsed="true">
+    <Position X="15.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAQAgAA=</HashCode>
+      <FileName>ServerStates\UserStates.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

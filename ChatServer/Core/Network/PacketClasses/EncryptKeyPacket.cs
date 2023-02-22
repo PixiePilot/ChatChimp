@@ -10,9 +10,10 @@ namespace ChatServer.Core.Network.PacketClasses
     {
         public EncryptKeyPacket( int size, string publicKey ) : base(size)
         {
-            createStream(size);
+            createStream( size );
             createHeader( publicKey.Length , (int)NetMessage.TS_SC_GIVE_KEY );
-            writeString(publicKey);
+            writeInt( publicKey.Length );
+            writeString( publicKey );
         }
     }
 }

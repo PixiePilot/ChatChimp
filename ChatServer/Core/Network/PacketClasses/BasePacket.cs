@@ -45,7 +45,7 @@ namespace ChatServer.Core.Network.PacketClasses
         }
 
         public void writeByte(byte b)
-            => writer.writeByte( b );//ms.WriteByte( b );
+            => writer.writeByte( b );
         
         public void writeString( string message )
         {
@@ -53,7 +53,7 @@ namespace ChatServer.Core.Network.PacketClasses
             ms.Write( Encoding.UTF8.GetBytes(message) );
         }
 
-        public void writeString( string message, string publicKey)
+        public void writeString( string message, string publicKey )
         {
             writeInt( message.Length );
             ms.Write( Encoding.UTF8.GetBytes( RC4.apply(message,publicKey) ) );

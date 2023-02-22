@@ -113,7 +113,7 @@ namespace ChatServer
             {
                 case (ushort)UserStates.CREATE_KEY:
                     connection.setDataSize( (int)NetSizes.CREATE_KEY );
-                        break;
+                    break;
                 case (ushort)UserStates.PRELOGIN:
                     connection.setDataSize( (int)NetSizes.PRELOGIN );
                     break;
@@ -183,7 +183,7 @@ namespace ChatServer
             if (publicKey.Length != 8)
                 return false;
 
-            string key = SHA.ComputeSha256Hash(publicKey.Substring(0, 4) + Globals.env.privateKey + publicKey.Substring(4, 8)); // always 64 chars
+            string key = SHA.ComputeSha256Hash( publicKey.Substring(0, 4) + Globals.env.privateKey + publicKey.Substring(4, 8) ); // always 64 chars
             char[] keyArray = key.ToCharArray();
             keyArray.Reverse();
             connection.setKey( new string(keyArray) );
