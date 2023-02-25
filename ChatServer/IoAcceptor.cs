@@ -184,14 +184,14 @@ namespace ChatServer
 
         public void doHeartBeat( Session connection, PacketReader reader ) {
             HeartBeatPacket heartBeatPacket = new HeartBeatPacket( reader, connection );
-            connection.getConn().Send( heartBeatPacket.getBeatData( connection.getState() ) );
+            connection.getConn().Send( heartBeatPacket.getBeatData( (byte)connection.getState() ) );
         }
 
         public void setKey( Session connection, Header header, PacketReader reader )
         {
             string clientKey = reader.readString();
             string publicKey;
-            bool result = createKey(clientKey, publicKey);
+            bool result = createKey(clientKey, out publicKey);
 
             if ( !result || header.msgId != 9999 )
             {
