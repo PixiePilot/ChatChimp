@@ -13,7 +13,6 @@ namespace ChatServer.ServerStates
 
         public void handleMessage( Session session, Header header, PacketReader reader )
         {
-
             switch(header.msgId)
             {
                 case (ushort)NetMessage.TS_CS_LOGIN_REQUEST:
@@ -36,6 +35,7 @@ namespace ChatServer.ServerStates
                 conn.Send( packet.getResult() );
                 return;
             }
+            session.setState((int)UserStates.LOGGEDIN);
             session.getConn().Send(packet.getResult(accountInfo));
             GuiHandler.writeEvent($"User logged on {accountInfo.username} at: {session.getIpAddress()}");
             session.changeToLoggedState( accountInfo );

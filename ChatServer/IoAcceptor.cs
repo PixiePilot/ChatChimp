@@ -171,13 +171,13 @@ namespace ChatServer
         public void handleMessage( Session connection, Header header, PacketReader reader ) {
             switch (connection.getState()) {
                 case (ushort)UserStates.CREATE_KEY:
-                    setKey(connection, header, reader);
+                    setKey( connection, header, reader );
                     break;
                 case (ushort)UserStates.PRELOGIN:
-                    authentication.handleMessage(connection, header, reader);
+                    authentication.handleMessage( connection, header, reader );
                     break;
                 case (ushort)UserStates.LOGGEDIN:
-                    chatServer.handleMessage((User)connection, header, reader);
+                    chatServer.handleMessage( (User)connection, header, reader );
                     break;
             }
         }

@@ -68,6 +68,10 @@ namespace ChatServer.Core.Network.ConnectionTypes
             user.setAccountInfo(accountInfo);
         }
 
+        public void resetTimer() {
+            heartBeatTimer.Stop();
+            heartBeatTimer.Start();
+        }
         public string getIpAddress()
             => ipAddress;
 

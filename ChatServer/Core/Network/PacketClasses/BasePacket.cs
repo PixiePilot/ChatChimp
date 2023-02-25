@@ -48,14 +48,11 @@ namespace ChatServer.Core.Network.PacketClasses
             => writer.writeByte( b );
         
         public void writeString( string message )
-        {
-            writer.writeString( message );
-        }
+            => writer.writeString( message );
+        
 
         public void writeString( string message, string publicKey )
-        {
-            writer.writeString( message, publicKey );
-        }
+            => writer.writeString( message, publicKey );
 
         public byte[] getData() 
             => data;
