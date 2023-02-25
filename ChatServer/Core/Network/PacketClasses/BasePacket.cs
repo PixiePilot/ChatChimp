@@ -49,14 +49,12 @@ namespace ChatServer.Core.Network.PacketClasses
         
         public void writeString( string message )
         {
-            writeInt( message.Length );
-            ms.Write( Encoding.UTF8.GetBytes(message) );
+            writer.writeString( message );
         }
 
         public void writeString( string message, string publicKey )
         {
-            writeInt( message.Length );
-            ms.Write( Encoding.UTF8.GetBytes( RC4.apply(message,publicKey) ) );
+            writer.writeString( message, publicKey );
         }
 
         public byte[] getData() 

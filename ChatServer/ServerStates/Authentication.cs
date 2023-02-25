@@ -11,20 +11,16 @@ namespace ChatServer.ServerStates
     public class Authentication
     {
 
-        public void handleMessage(Session session)
+        public void handleMessage( Session session, Header header, PacketReader reader )
         {
-            PacketReader reader = new PacketReader( session.getData() );
 
-            int contentSize = reader.readIntBytes();
-            int msgID = reader.readIntBytes();
-
-            switch(msgID)
+            switch(header.msgId)
             {
                 case (ushort)NetMessage.TS_CS_LOGIN_REQUEST:
                     handleLoginRequest( session, reader );
                     break;
                 default:
-                    GuiHandler.writeError($"invalid packet id: {msgID}");
+                    GuiHandler.writeError($"invalid packet id: {header.msgId}");
                     return; // invalid message.
             }
         }
@@ -40,7 +36,8 @@ namespace ChatServer.ServerStates
                 conn.Send( packet.getResult() );
                 return;
             }
-            session.getConn().Send( packet.getResult(accountInfo) );
+            session.getConn().Send(packet.getResult(accountInfo));
+            GuiHandler.writeEvent($"User logged on {accountInfo.username} at: {session.getIpAddress()}");
             session.changeToLoggedState( accountInfo );
         }
     }

@@ -9,6 +9,9 @@
         TS_CS_LOGIN_REQUEST = 2,
 
         TS_SC_LOGIN_RESULT = 3,
+
+        TS_CS_HEARTBEAT = 5,
+        TS_SC_HEARTBEAT = 5,
     }
 
     public enum NetSizes

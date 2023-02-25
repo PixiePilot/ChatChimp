@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
+using System.Timers;
 
 namespace ChatServer.Core.Network.ConnectionTypes
 {
@@ -16,6 +17,7 @@ namespace ChatServer.Core.Network.ConnectionTypes
         private ushort port { get; set; }
         private ushort state { get; set; }
 
+        private System.Timers.Timer heartBeatTimer { get; set; }
         private string key { get; set; }
         private byte[] data;
 
@@ -27,6 +29,12 @@ namespace ChatServer.Core.Network.ConnectionTypes
             ipAddress = ipInfo[0];
             port = ushort.Parse( ipInfo[1] );
             state = (ushort)UserStates.PRELOGIN;
+            heartBeatTimer = new System.Timers.Timer(Globals.Globals.heartBeatTime);
+            heartBeatTimer.Elapsed += onHeartBeatElapsed;
+            heartBeatTimer.Start();
+        }
+        ~Session() {
+            // save things?
         }
 
         public void setKey( string publicKey )
@@ -58,6 +66,20 @@ namespace ChatServer.Core.Network.ConnectionTypes
         {
             User user = (User)this;
             user.setAccountInfo(accountInfo);
+        }
+
+        public string getIpAddress()
+            => ipAddress;
+
+        public int getPort()
+            => port;
+        private void onHeartBeatElapsed( object? source, ElapsedEventArgs e ) {
+            heartBeatTimer.Stop();
+            disconnect();
+        }
+
+        public void disconnect() {
+            Globals.Globals.acceptor.removeUser(this);
         }
     }
 }

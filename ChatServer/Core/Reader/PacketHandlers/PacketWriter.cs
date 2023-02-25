@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChatServer.Core.Encryption;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +25,15 @@ namespace ChatServer.Core.Reader.PacketHandlers
 
         public void writeByte(byte value)
             => writer.Write(value);
+
+        public void writeString(string message) {
+            writeInt(message.Length);
+            ms.Write(Encoding.UTF8.GetBytes(message));
+        }
+
+        public void writeString(string message, string publicKey) {
+            writeInt(message.Length);
+            ms.Write(Encoding.UTF8.GetBytes(RC4.apply(message, publicKey)));
+        }
     }
 }

@@ -10,7 +10,8 @@ namespace ChatServer.Core.Globals
         public static ServerChat chatServer { get; set; }
 
         #region Const values
-        public static readonly string privateKey = "monkeyTown";
+        public const int heartBeatTime = 5000;
+
         #endregion
     }
 }

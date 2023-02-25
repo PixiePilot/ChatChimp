@@ -84,7 +84,13 @@ namespace ChatServer
 
         public void removeUser( Session session )
         {
-            GuiHandler.writeEvent("Remote connection closed at: " + session.getConn().RemoteEndPoint.ToString());
+            GuiHandler.writeEvent("Remote connection closed at: " + session.getIpAddress());
+            connectedSessions.RemoveAll( conn => ( session.getIpAddress() == conn.getIpAddress() ) && ( session.getPort() == conn.getPort() ) );
+            if (!validConn(session.getConn())) {
+                return;
+            }
+                
+            
             try { session.getConn().Shutdown(SocketShutdown.Send);  }
             finally { session.getConn().Close(); }
         }
@@ -95,7 +101,7 @@ namespace ChatServer
             {
                 return !( remoteConn.Poll( 1, SelectMode.SelectRead ) && remoteConn.Available == 0 );
             }
-            catch (SocketException) { return false; }
+            catch (Exception) { return false; }
         }
 
         public void listenForMessage( Session connection ) 
@@ -144,37 +150,53 @@ namespace ChatServer
 
         public void receiveMessage( IAsyncResult asyncResult )
         {
+            #region prepare for handling
             Session connection = (Session)asyncResult.AsyncState!;
-            switch( connection.getState() )
-            {
-                case (ushort)UserStates.CREATE_KEY:
-                    setKey( connection );
+            PacketReader reader = new PacketReader( connection.getData() );
+            Header header = new Header(reader);
+            #endregion
+            switch(header.msgId) { // default packets that work across all states
+                case (int)NetMessage.TS_CS_HEARTBEAT:
+                    doHeartBeat(connection, reader);
                     break;
-                case (ushort)UserStates.PRELOGIN:
-                    authentication.handleMessage( connection );
-                    break;
-                case (ushort)UserStates.LOGGEDIN:
-                    chatServer.handleMessage( (User)connection  );
+                default:
+                    handleMessage(connection, header, reader); // handles state based messages
                     break;
             }
 
             listenForMessage( connection );
         }
 
-        public void setKey( Session connection)
-        {
-            PacketReader reader = new PacketReader( connection.getData() );
+        public void handleMessage( Session connection, Header header, PacketReader reader ) {
+            switch (connection.getState()) {
+                case (ushort)UserStates.CREATE_KEY:
+                    setKey(connection, header, reader);
+                    break;
+                case (ushort)UserStates.PRELOGIN:
+                    authentication.handleMessage(connection, header, reader);
+                    break;
+                case (ushort)UserStates.LOGGEDIN:
+                    chatServer.handleMessage((User)connection, header, reader);
+                    break;
+            }
+        }
 
-            int contentSize = reader.readIntBytes();
-            int msgID = reader.readIntBytes(); // should be 9999 bc doesn't make sense ( security reasons )
-            string publicKey = reader.readString( reader.readIntBytes() );
+        public void doHeartBeat( Session connection, PacketReader reader ) {
+            HeartBeatPacket heartBeatPacket = new HeartBeatPacket( reader, connection );
+            connection.getConn().Send( heartBeatPacket.getBeatData() );
+        }
+
+        public void setKey( Session connection, Header header, PacketReader reader )
+        {
+            string publicKey = reader.readString();
             bool result = createKey( publicKey, connection );
 
-            if ( !result || msgID != 9999 )
+            if ( !result || header.msgId != 9999 )
             {
                 removeUser(connection);
                 return;
             }
+
             EncryptKeyPacket packet = new EncryptKeyPacket( (int)NetSizes.CREATE_KEY, connection.getKey() );
             connection.getConn().Send( packet.getData() );
         }

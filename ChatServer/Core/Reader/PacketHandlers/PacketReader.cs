@@ -19,10 +19,14 @@ namespace ChatServer.Core.Reader.PacketHandlers
 
         public int readIntBytes()
             => reader.Read7BitEncodedInt();
-        
-        public string readString( int lenMsg )
-            => Encoding.UTF8.GetString(reader.ReadBytes(lenMsg + 1),1,lenMsg);
-            
 
+        public string readString() {
+            int msglen = reader.Read7BitEncodedInt();
+            return Encoding.UTF8.GetString(reader.ReadBytes(msglen + 1), 1, msglen);
+        }   
+
+        public byte readByte() 
+            => reader.ReadByte();
+        
     }
 }

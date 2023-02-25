@@ -10,8 +10,8 @@ namespace ChatServer.Core.Network.PacketClasses
 
         public LoginPacket( PacketReader reader ) : base( reader )
         {
-            username = reader.readString( reader.readIntBytes() );
-            password = reader.readString( reader.readIntBytes() );
+            username = reader.readString();
+            password = reader.readString();
         }
 
         public string getUsername()
