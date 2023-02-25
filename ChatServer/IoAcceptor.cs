@@ -191,7 +191,7 @@ namespace ChatServer
         {
             string clientKey = reader.readString();
             string publicKey;
-            bool result = createKey(clientKey, connection, publicKey);
+            bool result = createKey(clientKey, publicKey);
 
             if ( !result || header.msgId != 9999 )
             {
@@ -204,7 +204,8 @@ namespace ChatServer
             EncryptKeyPacket packet = new EncryptKeyPacket( (int)NetSizes.CREATE_KEY, connection.getKey() );
             connection.getConn().Send( packet.getData() );
         }
-        public bool createKey( string clientKey, Session connection, out string publicKey )
+
+        public bool createKey( string clientKey, out string publicKey )
         {
             publicKey = string.Empty;
             if (clientKey.Length != 8)
