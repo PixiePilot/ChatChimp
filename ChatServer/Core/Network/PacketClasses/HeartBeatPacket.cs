@@ -15,15 +15,17 @@ namespace ChatServer.Core.Network.PacketClasses {
 
         public HeartBeatPacket( PacketReader reader, Session session ) : base(  reader ) {
             byte responseByte = reader.readByte();
-            if (responseByte != 1)
-                return;
+            if ( !( responseByte == (byte)session.getState() )) {
+                return; // handle 
+            }
+                
 
             session.resetTimer();
         }
 
-        public byte[] getBeatData() {
+        public byte[] getBeatData(byte state) {
             createStream(17);
-            writeByte(1); // 1 is smaller than 0;
+            writeByte(state); // 1 is smaller than 0;
             return getData();
         }
     }

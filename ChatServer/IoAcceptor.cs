@@ -9,6 +9,7 @@ using ChatServer.ServerStates;
 using ChatServer.Core.Reader.PacketHandlers;
 using ChatServer.Core.Encryption;
 using static System.Windows.Forms.AxHost;
+using Azure.Core.GeoJson;
 
 namespace ChatServer
 {
@@ -183,13 +184,14 @@ namespace ChatServer
 
         public void doHeartBeat( Session connection, PacketReader reader ) {
             HeartBeatPacket heartBeatPacket = new HeartBeatPacket( reader, connection );
-            connection.getConn().Send( heartBeatPacket.getBeatData() );
+            connection.getConn().Send( heartBeatPacket.getBeatData( connection.getState() ) );
         }
 
         public void setKey( Session connection, Header header, PacketReader reader )
         {
-            string publicKey = reader.readString();
-            bool result = createKey( publicKey, connection );
+            string clientKey = reader.readString();
+            string publicKey;
+            bool result = createKey(clientKey, connection, publicKey);
 
             if ( !result || header.msgId != 9999 )
             {
@@ -197,19 +199,21 @@ namespace ChatServer
                 return;
             }
 
+            connection.setKey(publicKey);
+            connection.setState((ushort)UserStates.PRELOGIN);
             EncryptKeyPacket packet = new EncryptKeyPacket( (int)NetSizes.CREATE_KEY, connection.getKey() );
             connection.getConn().Send( packet.getData() );
         }
-        public bool createKey( string publicKey, Session connection )
+        public bool createKey( string clientKey, Session connection, out string publicKey )
         {
-            if (publicKey.Length != 8)
+            publicKey = string.Empty;
+            if (clientKey.Length != 8)
                 return false;
 
-            string key = SHA.ComputeSha256Hash( publicKey.Substring(0, 4) + Globals.env.privateKey + publicKey.Substring(4, 8) ); // always 64 chars
-            char[] keyArray = key.ToCharArray();
+            string tempkey = SHA.ComputeSha256Hash(clientKey.Substring(0, 4) + Globals.env.privateKey + clientKey.Substring(4, 8) ); // always 64 chars
+            char[] keyArray = tempkey.ToCharArray();
             keyArray.Reverse();
-            connection.setKey( new string(keyArray) );
-            connection.setState( (ushort)UserStates.PRELOGIN );
+            publicKey = new string(keyArray);
             return true;
         }
     }
