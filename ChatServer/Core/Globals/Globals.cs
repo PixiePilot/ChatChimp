@@ -9,9 +9,5 @@ namespace ChatServer.Core.Globals
         public static Authentication authentication { get; set; }
         public static ServerChat chatServer { get; set; }
 
-        #region Const values
-        public const int heartBeatTime = 5000;
-
-        #endregion
     }
 }

@@ -20,11 +20,14 @@ namespace ChatServer.Core.Globals.Environment
         public string databasePassword { get; set; }
         public string databaseName { get; set; }
 
-        // Non opt globals
+        #region Const globals
+        public int version = 1;
         public int buffSzLogin = 1024;
 
         public int buffSzLogged = 2048;
 
+        public int heartBeatTime = 5000;
+        #endregion
         public Env()
         {
             OptionReader reader = new("options");

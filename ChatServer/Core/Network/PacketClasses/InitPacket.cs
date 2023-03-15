@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChatServer.Core.Globals;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace ChatServer.Core.Network.PacketClasses
             createStream( packetSize );
             createHeader( packetSize, (int)NetMessage.TS_SC_RESPONSE_INIT );
             writeByte( responseState );
+            writeInt(Globals.Globals.env.version);
             return getData();
         }
     }

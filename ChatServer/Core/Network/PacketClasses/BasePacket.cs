@@ -35,7 +35,7 @@ namespace ChatServer.Core.Network.PacketClasses
 
         public void createHeader(int size, int packetId)
         {
-            writer.writeInt( size - 2);
+            writer.writeInt( size - 2 );
             writer.writeInt( packetId );
         }
 

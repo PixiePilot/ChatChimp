@@ -29,7 +29,7 @@ namespace ChatServer.Core.Network.ConnectionTypes
             ipAddress = ipInfo[0];
             port = ushort.Parse( ipInfo[1] );
             state = (ushort)UserStates.PRELOGIN;
-            heartBeatTimer = new System.Timers.Timer(Globals.Globals.heartBeatTime);
+            heartBeatTimer = new System.Timers.Timer(Globals.Globals.env.heartBeatTime);
             heartBeatTimer.Elapsed += onHeartBeatElapsed;
             heartBeatTimer.Start();
         }

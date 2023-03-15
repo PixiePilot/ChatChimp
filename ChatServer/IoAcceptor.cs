@@ -8,8 +8,6 @@ using ChatServer.Core.Network;
 using ChatServer.ServerStates;
 using ChatServer.Core.Reader.PacketHandlers;
 using ChatServer.Core.Encryption;
-using static System.Windows.Forms.AxHost;
-using Azure.Core.GeoJson;
 
 namespace ChatServer
 {
@@ -118,6 +116,7 @@ namespace ChatServer
             #endregion
             switch ( connection.getState() )
             {
+                // new state for version check.
                 case (ushort)UserStates.CREATE_KEY:
                     connection.setDataSize( (int)NetSizes.CREATE_KEY );
                     break;
@@ -142,7 +141,7 @@ namespace ChatServer
                         receiveMessage,
                         connection
                     );
-            }catch( Exception e )
+            }catch( Exception )
             {
                 removeUser(connection);
                 return;
