@@ -1,5 +1,6 @@
 ﻿using ChatServer.Core.Encryption;
 using ChatServer.Core.Globals;
+using ChatServer.Core.Reader.PacketHandlers;
 using ChatServer.Core.Structs;
 using ChatServer.ServerStates;
 using System;
@@ -17,6 +18,8 @@ namespace ChatServer.Core.Network.ConnectionTypes
         private ushort port { get; set; }
         private ushort state { get; set; }
 
+        public bool isConnected { get; set; }
+        private MonkeyNetworkStream networkStream { get; set; }
         private System.Timers.Timer heartBeatTimer { get; set; }
         private string key { get; set; }
         private byte[] data;
@@ -24,6 +27,10 @@ namespace ChatServer.Core.Network.ConnectionTypes
         public Session( Socket remoteConn )
         {
             this.remoteConn = remoteConn;
+            if (!isValidConn()) {
+                return;
+            }
+            networkStream = new MonkeyNetworkStream( this.remoteConn );
             string[] ipInfo = remoteConn.RemoteEndPoint.ToString().Split(':');
             
             ipAddress = ipInfo[0];
@@ -35,6 +42,22 @@ namespace ChatServer.Core.Network.ConnectionTypes
         }
         ~Session() {
             // save things?
+        }
+        public void MonkeyWaitBanana() {
+            while (!networkStream.DataAvailable) {
+                Thread.Sleep(1);
+            }
+        }
+        public MonkeyNetworkStream GetMonkey()
+            => networkStream;
+
+        public void ResetMonkey() {
+            networkStream.Flush();
+        }
+
+        public bool isValidConn() {
+            isConnected = Globals.Globals.acceptor.validConn(remoteConn);
+            return isConnected;
         }
 
         public void setKey( string publicKey )

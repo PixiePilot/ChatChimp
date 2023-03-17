@@ -22,7 +22,7 @@ namespace ChatServer.Core.Network.PacketClasses
             ms = new MemoryStream( data );
         }
 
-        public BasePacket( PacketReader reader )
+        public BasePacket(MonkeyNetworkStream monkeyStream )
         {
 
         }

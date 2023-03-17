@@ -88,7 +88,6 @@ namespace ChatServer
             if (!validConn(session.getConn())) {
                 return;
             }
-                
             
             try { session.getConn().Shutdown(SocketShutdown.Send);  }
             finally { session.getConn().Close(); }
@@ -127,66 +126,51 @@ namespace ChatServer
                     connection.setDataSize( (int)NetSizes.LOGGEDIN );
                     break;
             }
-            
-            EndPoint remoteEndPoint = remoteConn.RemoteEndPoint;
-            try
-            {
-                remoteConn.BeginReceiveFrom
-                    (
-                        connection.getData(),
-                        0,
-                        (int)NetSizes.PRELOGIN,
-                        SocketFlags.None,
-                        ref remoteEndPoint,
-                        receiveMessage,
-                        connection
-                    );
-            }catch( Exception )
-            {
-                removeUser(connection);
-                return;
-            }
+
+            //EndPoint remoteEndPoint = remoteConn.RemoteEndPoint;
+            connection.ResetMonkey();
+            connection.MonkeyWaitBanana();
+            receiveBananas(connection);
         }
 
-        public void receiveMessage( IAsyncResult asyncResult )
+        public void receiveBananas( Session connection )
         {
             #region prepare for handling
-            Session connection = (Session)asyncResult.AsyncState!;
-            PacketReader reader = new PacketReader( connection.getData() );
-            Header header = new Header(reader);
+            MonkeyNetworkStream MonkeyStream = connection.GetMonkey();
+            Header header = new Header(MonkeyStream);
             #endregion
             switch(header.msgId) { // default packets that work across all states
                 case (int)NetMessage.TS_CS_HEARTBEAT:
-                    doHeartBeat(connection, reader);
+                    doHeartBeat(connection, MonkeyStream);
                     break;
                 default:
-                    handleMessage(connection, header, reader); // handles state based messages
+                    handleMessage(connection, header, MonkeyStream); // handles state based messages
                     break;
             }
 
             listenForMessage( connection );
         }
 
-        public void handleMessage( Session connection, Header header, PacketReader reader ) {
+        public void handleMessage( Session connection, Header header, MonkeyNetworkStream MonkeyStream ) {
             switch (connection.getState()) {
                 case (ushort)UserStates.CREATE_KEY:
-                    setKey( connection, header, reader );
+                    setKey( connection, header, MonkeyStream );
                     break;
                 case (ushort)UserStates.PRELOGIN:
-                    authentication.handleMessage( connection, header, reader );
+                    authentication.handleMessage( connection, header, MonkeyStream );
                     break;
                 case (ushort)UserStates.LOGGEDIN:
-                    chatServer.handleMessage( (User)connection, header, reader );
+                    chatServer.handleMessage( (User)connection, header, MonkeyStream );
                     break;
             }
         }
 
-        public void doHeartBeat( Session connection, PacketReader reader ) {
+        public void doHeartBeat( Session connection, MonkeyNetworkStream reader ) {
             HeartBeatPacket heartBeatPacket = new HeartBeatPacket( reader, connection );
             connection.getConn().Send( heartBeatPacket.getBeatData( (byte)connection.getState() ) );
         }
 
-        public void setKey( Session connection, Header header, PacketReader reader )
+        public void setKey( Session connection, Header header, MonkeyNetworkStream reader )
         {
             string clientKey = reader.readString();
             string publicKey;

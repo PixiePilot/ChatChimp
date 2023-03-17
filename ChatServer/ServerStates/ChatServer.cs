@@ -7,7 +7,7 @@ namespace ChatServer.ServerStates
     public class ServerChat
     {
 
-        public void handleMessage( User user, Header header, PacketReader reader )
+        public void handleMessage( User user, Header header, MonkeyNetworkStream MonkeyStream )
         {
 
         }

@@ -1,32 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ChatServer.Core.Reader.PacketHandlers
 {
-    public class PacketReader
+    public class MonkeyNetworkStream : NetworkStream
     {
-        private MemoryStream ms { get; set; }
-        private BinaryReader reader { get; set; }
-
-        public PacketReader( byte[] data ) 
-        {
-            ms = new MemoryStream( data );
-            reader = new BinaryReader( ms );
+        public MonkeyNetworkStream(Socket socket) : base(socket) {
         }
 
-        public int readIntBytes()
-            => reader.Read7BitEncodedInt();
+        public int readIntBytes() 
+            => new BinaryReader(this).Read7BitEncodedInt();
+        
 
         public string readString() {
+            BinaryReader reader = new BinaryReader(this);
             int msglen = reader.Read7BitEncodedInt();
             return Encoding.UTF8.GetString(reader.ReadBytes(msglen + 1), 1, msglen);
-        }   
+        }
 
-        public byte readByte() 
-            => reader.ReadByte();
+        public void Seek(int offset) {
+            for( int i = 0; i == offset; offset--)
+                ReadByte();
+        }
+
+        public byte readByte()
+            => (byte)ReadByte();
+
+        public void writeInt(int value)
+            => new BinaryWriter(this).Write7BitEncodedInt(value);
+        
         
     }
 }

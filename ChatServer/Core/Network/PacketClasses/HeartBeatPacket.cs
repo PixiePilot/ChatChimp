@@ -13,7 +13,7 @@ namespace ChatServer.Core.Network.PacketClasses {
 
         }
 
-        public HeartBeatPacket( PacketReader reader, Session session ) : base(  reader ) {
+        public HeartBeatPacket(MonkeyNetworkStream reader, Session session ) : base(  reader ) {
             byte responseByte = reader.readByte();
             if ( !( responseByte == (byte)session.getState() )) {
                 return; // handle 

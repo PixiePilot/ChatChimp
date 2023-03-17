@@ -8,10 +8,10 @@ namespace ChatServer.Core.Network.PacketClasses
         private string username { get; set; }
         private string password { get; set; }
 
-        public LoginPacket( PacketReader reader ) : base( reader )
+        public LoginPacket( MonkeyNetworkStream MonkeyStream ) : base( MonkeyStream )
         {
-            username = reader.readString();
-            password = reader.readString();
+            username = MonkeyStream.readString();
+            password = MonkeyStream.readString();
         }
 
         public string getUsername()

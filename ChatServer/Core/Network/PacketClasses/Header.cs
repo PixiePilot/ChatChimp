@@ -10,10 +10,10 @@ namespace ChatServer.Core.Network.PacketClasses {
         public int msgLen { get; set; }
         public int msgId { get; set; }
         public bool validHeader { get; set; }
-        public Header( PacketReader reader) {
+        public Header( MonkeyNetworkStream MonkeyStream ) {
             try {
-                msgLen = reader.readIntBytes();
-                msgId = reader.readIntBytes();
+                msgLen = MonkeyStream.readIntBytes();
+                msgId = MonkeyStream.readIntBytes();
             }catch(Exception) { validHeader = false; }
             validHeader= true;
         }

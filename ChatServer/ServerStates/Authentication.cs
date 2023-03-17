@@ -11,12 +11,12 @@ namespace ChatServer.ServerStates
     public class Authentication
     {
 
-        public void handleMessage( Session session, Header header, PacketReader reader )
+        public void handleMessage( Session session, Header header, MonkeyNetworkStream MonkeyStream )
         {
             switch(header.msgId)
             {
                 case (ushort)NetMessage.TS_CS_LOGIN_REQUEST:
-                    handleLoginRequest( session, reader );
+                    handleLoginRequest( session, MonkeyStream );
                     break;
                 default:
                     GuiHandler.writeError($"invalid packet id: {header.msgId}");
@@ -24,9 +24,9 @@ namespace ChatServer.ServerStates
             }
         }
 
-        public void handleLoginRequest( Session session, PacketReader reader )
+        public void handleLoginRequest( Session session, MonkeyNetworkStream MonkeyStream )
         {
-            LoginPacket packet = new LoginPacket( reader );
+            LoginPacket packet = new LoginPacket( MonkeyStream );
             AccountStruct accountInfo;
             bool result = Authenticator.loginUserWithResult( packet.getUsername(), packet.getPassword(), out accountInfo );
             Socket conn = session.getConn();
