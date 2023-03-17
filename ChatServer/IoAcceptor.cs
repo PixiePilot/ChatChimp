@@ -129,8 +129,9 @@ namespace ChatServer
 
             //EndPoint remoteEndPoint = remoteConn.RemoteEndPoint;
             connection.ResetMonkey();
-            connection.MonkeyWaitBanana();
-            receiveBananas(connection);
+            bool result = connection.MonkeyWaitBanana();
+            if( result )
+                receiveBananas(connection);
         }
 
         public void receiveBananas( Session connection )

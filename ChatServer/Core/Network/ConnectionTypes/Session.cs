@@ -43,17 +43,24 @@ namespace ChatServer.Core.Network.ConnectionTypes
         ~Session() {
             // save things?
         }
-        public void MonkeyWaitBanana() {
-            while (!networkStream.DataAvailable) {
-                Thread.Sleep(1);
+        public bool MonkeyWaitBanana() {
+            try {
+                while (!networkStream.DataAvailable) {
+                    Thread.Sleep(1);
+                }
+                return true;
+            }
+            catch (Exception) {
+                disconnect();
+                return false;
             }
         }
         public MonkeyNetworkStream GetMonkey()
             => networkStream;
 
-        public void ResetMonkey() {
-            networkStream.Flush();
-        }
+        public void ResetMonkey() 
+            => networkStream.Flush();
+        
 
         public bool isValidConn() {
             isConnected = Globals.Globals.acceptor.validConn(remoteConn);
