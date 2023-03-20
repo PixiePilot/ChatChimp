@@ -7,7 +7,7 @@ namespace ChatServer.Core.Reader.PacketHandlers
     {
         public MonkeyNetworkStream(Socket socket) : base(socket) {
         }
-
+        
         public int readIntBytes() 
             => new BinaryReader(this).Read7BitEncodedInt();
         
@@ -25,9 +25,20 @@ namespace ChatServer.Core.Reader.PacketHandlers
 
         public byte readByte()
             => (byte)ReadByte();
+        public void writerHeader(int packetId, int size) {
+            BinaryWriter writer = new BinaryWriter(this);
+            writer.Write7BitEncodedInt(size);
+            writer.Write7BitEncodedInt(packetId);
+        }
+        public void writeBool(bool b) 
+            => new BinaryWriter(this).Write(b);
+        
 
-        public void writeInt(int value)
+        public void writeInt(int value) 
             => new BinaryWriter(this).Write7BitEncodedInt(value);
+        
+        public void writeString(string value) 
+            => new BinaryWriter(this).Write(value);
         
         
     }

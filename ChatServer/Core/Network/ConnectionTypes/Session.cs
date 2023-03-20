@@ -1,4 +1,5 @@
-﻿using ChatServer.Core.Encryption;
+﻿using ChatServer.Core.DataBase.Models.Accounts;
+using ChatServer.Core.Encryption;
 using ChatServer.Core.Globals;
 using ChatServer.Core.Reader.PacketHandlers;
 using ChatServer.Core.Structs;
@@ -92,10 +93,10 @@ namespace ChatServer.Core.Network.ConnectionTypes
         public void setState( ushort state )
             => this.state = state;
 
-        public void changeToLoggedState( AccountStruct accountInfo )
+        public void changeToLoggedState( BaseAccount account )
         {
             User user = (User)this;
-            user.setAccountInfo(accountInfo);
+            user.setAccountObject(account);
         }
 
         public void resetTimer() {

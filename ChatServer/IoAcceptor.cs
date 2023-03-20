@@ -127,11 +127,14 @@ namespace ChatServer
                     break;
             }
 
-            //EndPoint remoteEndPoint = remoteConn.RemoteEndPoint;
+
             connection.ResetMonkey();
             bool result = connection.MonkeyWaitBanana();
             if( result )
                 receiveBananas(connection);
+            else {
+                removeUser(connection);
+            }
         }
 
         public void receiveBananas( Session connection )

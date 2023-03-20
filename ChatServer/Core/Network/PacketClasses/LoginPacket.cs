@@ -1,4 +1,5 @@
-﻿using ChatServer.Core.Reader.PacketHandlers;
+﻿using ChatServer.Core.DataBase.Models.Accounts;
+using ChatServer.Core.Reader.PacketHandlers;
 using ChatServer.Core.Structs;
 
 namespace ChatServer.Core.Network.PacketClasses
@@ -20,11 +21,11 @@ namespace ChatServer.Core.Network.PacketClasses
         public string getPassword() 
             => password;
 
-        public byte[] getResult( AccountStruct accountInfo )
+        public byte[] getResult( BaseAccount account )
         {
-            string welcomeMsg = $"Welcome {accountInfo.username}";
-            createStream(121);
-            createHeader( welcomeMsg.Length , (int)NetMessage.TS_SC_LOGIN_RESULT );
+            string welcomeMsg = $"Welcome {account.getUsername()}";
+            //createStream(121);
+            createHeader( welcomeMsg.Length + 1 , (int)NetMessage.TS_SC_LOGIN_RESULT );
             writeByte(1);// True
             writeString( welcomeMsg );
             return getData();
