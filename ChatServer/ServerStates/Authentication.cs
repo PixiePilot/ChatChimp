@@ -35,10 +35,11 @@ namespace ChatServer.ServerStates
             Socket conn = session.getConn();
             if (!result)
             {
-                conn.Send( packet.getResult() );
+                packet.sendResult( MonkeyStream, string.Empty, result);
                 return;
             }
             BaseAccount account = new BaseAccount(accountId);
+            //cast is REQUIRED, As we don't know what type of class it is here. and downcasting is always possible!!
             switch ( account.getAccountType() ) {
                 case (byte)AccountTypesEnum.USER:
                     account = ModelMarshal.acc_cast_user( account );
@@ -54,10 +55,8 @@ namespace ChatServer.ServerStates
                 oldValue: ((BaseAccount)account).getUsername(),
                 eventId:(int)LogBookEnums.LogEventEnum.LOGIN
                 );
-            // refactor below
             session.setState((int)UserStates.LOGGEDIN);
-            session.getConn().Send(packet.getResult(account));
-            // cast is REQUIRED, As we don't know what type of class it is here. and downcasting is always possible!!
+            packet.sendResult(MonkeyStream, ((BaseAccount)account).getUsername(), result);
             GuiHandler.writeEvent($"User logged on {((BaseAccount)account).getUsername()} at: {session.getIpAddress()}");
             session.changeToLoggedState( account );
         }

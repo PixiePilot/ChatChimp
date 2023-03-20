@@ -21,22 +21,19 @@ namespace ChatServer.Core.Network.PacketClasses
         public string getPassword() 
             => password;
 
-        public byte[] getResult( BaseAccount account )
+        public void sendResult( MonkeyNetworkStream monkeyStream, string username, bool positive )//BaseAccount account )
         {
-            string welcomeMsg = $"Welcome {account.getUsername()}";
-            //createStream(121);
-            createHeader( welcomeMsg.Length + 1 , (int)NetMessage.TS_SC_LOGIN_RESULT );
-            writeByte(1);// True
-            writeString( welcomeMsg );
-            return getData();
+            if (!positive) {
+                monkeyStream.sendHeader((int)NetMessage.TS_SC_LOGIN_RESULT, 1);
+                monkeyStream.writeBool(positive);
+                return;
+            }
+
+            string welcomeMsg = $"Welcome {username}";
+            monkeyStream.sendHeader((int)NetMessage.TS_SC_LOGIN_RESULT, welcomeMsg.Length);
+            monkeyStream.writeBool(positive);
+            monkeyStream.writeString(welcomeMsg);
         }
 
-        public byte[] getResult()
-        {
-            createStream(70);
-            createHeader( 1, (int)NetMessage.TS_SC_LOGIN_RESULT );
-            writeByte(0);// False
-            return getData();
-        }
     }
 }

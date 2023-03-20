@@ -25,7 +25,7 @@ namespace ChatServer.Core.Reader.PacketHandlers
 
         public byte readByte()
             => (byte)ReadByte();
-        public void writerHeader(int packetId, int size) {
+        public void sendHeader(int packetId, int size) {
             BinaryWriter writer = new BinaryWriter(this);
             writer.Write7BitEncodedInt(size);
             writer.Write7BitEncodedInt(packetId);
